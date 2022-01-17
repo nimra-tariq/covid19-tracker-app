@@ -8,19 +8,19 @@ export default function CardContainer() {
         {
             cardTitle: 'Infected',
             totalCases: 0,
-            lastDescription: 'Active Cases of Covid-19',
+            lastDescription: 'Number of Active Cases of COVID-19',
     
         },
         {
             cardTitle: 'Recovered',
             totalCases: 0,
-            lastDescription: 'Recoveries from Covid-19',
+            lastDescription: 'Number of Recoveries from COVID-19',
         
         },
         {
             cardTitle: 'Deaths',
             totalCases: 0,
-            lastDescription: 'Deaths Caused by Covid-19',
+            lastDescription: 'Number of Deaths Caused by COVID-19',
        
         }
     ]
