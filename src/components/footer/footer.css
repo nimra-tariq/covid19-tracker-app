@@ -1,0 +1,31 @@
+div a {
+    text-decoration: none;
+}
+span{
+    font-size: 0.86em;
+    font-weight: bold;
+}
+.footer{
+    text-align: center;
+    margin-top: 7px;
+}
+.nav-link {
+	margin: 0 5px;
+}
+.nav-link img {
+	border-radius: 50%;
+	width: 36px;
+	height: 36px;
+	margin: -8px 0;
+	float: left;
+	margin-right: 10px;
+}
+.footerContainer{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.icon{
+    display: inline-flex;
+}

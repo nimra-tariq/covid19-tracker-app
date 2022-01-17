@@ -14,7 +14,10 @@ const classes=useStyles();
   return (<>
     <Box sx={{ minWidth: 275 }} className={classes.box}>
       <Card variant="outlined">
-        <Card sx={{ minWidth: 275 }} className={props.cardNo==0 && classes.infected || props.cardNo==1 && classes.recovered || props.cardNo==2 && classes.death}>
+
+      {/* (props.cardNo===0) && (classes.infected) || (props.cardNo===1) && (classes.recovered) || (props.cardNo===2) && (classes.death) */}
+
+        <Card sx={{ minWidth: 275 }} className={props.cardNo===0?classes.infected:props.cardNo===1?classes.recovered:props.cardNo===2?classes.death:''}>
           <CardContent>
             <Typography sx={{ fontSize: 14 }} variant='h6' gutterBottom>
               {props.title}
