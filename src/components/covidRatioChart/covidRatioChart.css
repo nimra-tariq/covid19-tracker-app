@@ -1,3 +1,31 @@
 .barChart{
     margin-top: 30px;
 }
+.boxx{
+    margin-top: 22px;
+    padding: 0px 40px;
+  
+}
+.d-flex {
+    display: flow-root !important;
+    border-color: hsl(0deg 79% 4%)
+}
+
+
+.css-1s2u09g-control {
+    border-color: hsl(197deg 100% 91%) !important;
+    font-weight: bolder;
+}
+.css-1s2u09g-control {
+  
+    background-color: hsl(197deg 100% 91%) !important;
+    font-weight: bolder;}
+    .indicatorContainer {
+        color: hsl(221deg 94% 25%) !important;}
+        .css-tlfecz-indicatorContainer {
+            color: hsl(221deg 94% 25%) !important;}
+          
+.css-1s2u09g-control {
+    color: hsl(221deg 94% 25%) !important;
+    box-shadow:  10px 8px 10px #5c5b5b6b,10px 8px 10px #5c5b5b6b;}
+ 

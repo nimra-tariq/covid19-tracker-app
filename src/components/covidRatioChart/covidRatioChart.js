@@ -3,21 +3,39 @@ import { useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import Chart from 'chart.js/auto'
 import './covidRatioChart.css'
-import { useState } from "react";
 import { MyContext } from "../../context/context";
-import { useContext } from "react";
+import React, { useState, useMemo } from 'react'
+import Select from 'react-select'
+import countryList from 'react-select-country-list'
+import { useContext } from 'react'
+
+
+
 
 
 export default function CovidChart() {
 
-    const myContext=useContext(MyContext);
-    console.log(useContext.countryName.cname);
 
-    const [covidStats, setStats] = useState({ infected: 0, deaths: 0, recovered: 0 })
-    useEffect(() => {
-        function getData() {
-            async function fetchData() {
-                const resp = await fetch("https://vaccovid-coronavirus-vaccine-and-treatment-tracker.p.rapidapi.com/api/npm-covid-data/country-report-iso-based/India/ind", {
+
+    let [country, setCountry] = useState({ Country: 'Pakistan', ThreeLetterSymbol: 'Pak' });
+    const myContext = useContext(MyContext);
+
+    const [value, setValue] = useState('Pakistan')
+    const options = useMemo(() => countryList().getData(), [])
+
+    const changeHandler = value => {
+
+        setValue(value)
+        console.log(value.label);
+        setCountry({ Country: value.label, ThreeLetterSymbol: value.label.slice(0, 3) });
+        // myContext.dispatchFun({ cname: country, type: "getCountryName" })
+        getData();
+
+    }
+    function getData() {
+        async function fetchData() {
+            try {
+                const resp = await fetch(`https://vaccovid-coronavirus-vaccine-and-treatment-tracker.p.rapidapi.com/api/npm-covid-data/country-report-iso-based/${country.Country}/${country.ThreeLetterSymbol}`, {
                     "method": "GET",
                     "headers": {
                         "x-rapidapi-host": "vaccovid-coronavirus-vaccine-and-treatment-tracker.p.rapidapi.com",
@@ -25,23 +43,33 @@ export default function CovidChart() {
                     }
                 })
                 const data = await resp.json();
+                // console.log(data);
                 return data;
             }
-            fetchData().then(data => {
-                data.forEach((statsObj) => {
-                    // console.log(statsObj.TotalDeaths)
-                    // console.log(statsObj.TotalRecovered)
-                    // console.log(statsObj.TotalCases)
-                    setStats({
-                        infected: statsObj.TotalCases,
-                        deaths: statsObj.TotalDeaths,
-                        recovered: statsObj.TotalRecovered
-                    });
-                });
-                
+            catch (e) {
+                console.log(e);
             }
-            )
         }
+        fetchData().then(data => {
+            data.forEach((statsObj) => {
+                setStats({
+                    infected: statsObj.TotalCases,
+                    deaths: statsObj.TotalDeaths,
+                    recovered: statsObj.TotalRecovered
+                });
+            });
+
+        }
+        )
+    }
+
+
+
+    console.log(country.Country);
+
+
+    const [covidStats, setStats] = useState({ infected: 0, deaths: 0, recovered: 0 })
+    useEffect(() => {
         getData();
     }, []);
 
@@ -63,22 +91,31 @@ export default function CovidChart() {
     };
 
 
-    return (<div className="barChart">
-        <Bar data={data}
-            options={{
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Current State in ',
-                        fontSize: 20
-                    }, legend: {
-                        display: true,
-                        position: 'right'
-                    }
-                }
-            }}
-        />
-    </div>);
+    return (
+
+        <>
+            <div className="d-flex justify-content-center boxx">
+                <Select options={options} value={value} onChange={changeHandler} />
+            </div>
+
+            <div className="barChart">
+                <Bar data={data}
+                    options={{
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Current State in ' + country.Country,
+                                fontSize: 20
+                            }, legend: {
+                                display: true,
+                                position: 'right'
+                            }
+                        }
+                    }}
+                />
+            </div>
+        </>
+    );
 }
 
 
