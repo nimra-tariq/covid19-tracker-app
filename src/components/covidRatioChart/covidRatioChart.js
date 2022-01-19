@@ -15,10 +15,14 @@ import { useContext } from 'react'
 
 export default function CovidChart() {
 
-
-
     let [country, setCountry] = useState({ Country: 'Pakistan', ThreeLetterSymbol: 'Pak' });
     const myContext = useContext(MyContext);
+    const [covidStats, setStats] = useState({ infected: 0, deaths: 0, recovered: 0 })
+    useEffect(() => {
+        console.log("useEffect is challing");
+       getData();
+     myContext.dispatchFun({ TotalDeaths:covidStats.deaths,TotalRecovered:covidStats.recovered,TotalCases:covidStats.infected, type: "getStats" })
+    }, []);
 
     const [value, setValue] = useState('Pakistan')
     const options = useMemo(() => countryList().getData(), [])
@@ -26,11 +30,12 @@ export default function CovidChart() {
     const changeHandler = value => {
 
         setValue(value)
-        console.log(value.label);
+        console.log(value.label+'label');
         setCountry({ Country: value.label, ThreeLetterSymbol: value.label.slice(0, 3) });
         // myContext.dispatchFun({ cname: country, type: "getCountryName" })
         getData();
-
+        myContext.dispatchFun({ TotalDeaths:covidStats.deaths,TotalRecovered:covidStats.recovered,TotalCases:covidStats.infected, type: "getStats" })
+      
     }
     function getData() {
         async function fetchData() {
@@ -43,7 +48,7 @@ export default function CovidChart() {
                     }
                 })
                 const data = await resp.json();
-                // console.log(data);
+                console.log(data);
                 return data;
             }
             catch (e) {
@@ -57,21 +62,19 @@ export default function CovidChart() {
                     deaths: statsObj.TotalDeaths,
                     recovered: statsObj.TotalRecovered
                 });
+             
             });
-
+           
         }
         )
     }
 
 
 
-    console.log(country.Country);
+    console.log(country.Country+" inside covidChart");
 
 
-    const [covidStats, setStats] = useState({ infected: 0, deaths: 0, recovered: 0 })
-    useEffect(() => {
-        getData();
-    }, []);
+    
 
     const labels = [
         'Infected',

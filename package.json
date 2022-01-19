@@ -11,6 +11,7 @@
     "chart.js": "^3.7.0",
     "react": "^0.0.0-experimental-9a7e6bf0d-20220111",
     "react-chartjs-2": "^4.0.0",
+    "react-countup": "^6.1.1",
     "react-dom": "^0.0.0-experimental-9a7e6bf0d-20220111",
     "react-scripts": "5.0.0",
     "react-select": "^5.2.2",

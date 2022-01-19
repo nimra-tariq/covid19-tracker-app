@@ -6,7 +6,13 @@ export const myReducer = (state, action) => {
                 ...state,
                 cname: action.cname
             };
-
+        case 'getStats':
+            return {
+                ...state,
+                TotalCases: action.TotalCases,
+                TotalDeaths: action.TotalDeaths,
+                TotalRecovered: action.TotalRecovered
+            }
         default:
             break;
     }

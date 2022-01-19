@@ -1,25 +1,28 @@
 import ProductCard from "./productCard";
 import { Grid } from '@material-ui/core';
 import { useStyles } from "./styles";
+import { MyContext } from '../../context/context';
+import { useContext } from 'react';
 
 export default function CardContainer() {
     const classes=useStyles();
+    const myContext=useContext(MyContext);
     let cardArray = [
         {
             cardTitle: 'Infected',
-            totalCases: 0,
+            totalCases: myContext.countryName.TotalCases,
             lastDescription: 'Number of Active Cases of COVID-19',
     
         },
         {
             cardTitle: 'Recovered',
-            totalCases: 0,
+            totalCases:  myContext.countryName.TotalRecovered,
             lastDescription: 'Number of Recoveries from COVID-19',
         
         },
         {
             cardTitle: 'Deaths',
-            totalCases: 0,
+            totalCases:  myContext.countryName.TotalDeaths,
             lastDescription: 'Number of Deaths Caused by COVID-19',
        
         }

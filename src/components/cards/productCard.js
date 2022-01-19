@@ -6,8 +6,11 @@ import CardContent from '@material-ui/core//CardContent';
 import Button from '@material-ui/core//Button';
 import Typography from '@material-ui/core//Typography';
 import {useStyles} from './styles'
+import CountUp from 'react-countup';
 
 export default function ProductCard(props) {
+
+
   const today = new Date().toDateString();
 const classes=useStyles();
 
@@ -15,15 +18,13 @@ const classes=useStyles();
     <Box sx={{ minWidth: 275 }} className={classes.box}>
       <Card variant="outlined">
 
-      {/* (props.cardNo===0) && (classes.infected) || (props.cardNo===1) && (classes.recovered) || (props.cardNo===2) && (classes.death) */}
-
         <Card sx={{ minWidth: 275 }} className={props.cardNo===0?classes.infected:props.cardNo===1?classes.recovered:props.cardNo===2?classes.death:''}>
           <CardContent>
             <Typography sx={{ fontSize: 14 }} variant='h6' gutterBottom>
               {props.title}
             </Typography>
             <Typography variant="h3" component="div">
-              {props.cases}
+              <CountUp start={0} end={props.cases} duration={2.5} seprator=','/>  
             </Typography>
             <Typography sx={{ mb: 1.5 }} >
               {today}
