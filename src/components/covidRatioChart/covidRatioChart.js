@@ -19,12 +19,12 @@ export default function CovidChart() {
     const myContext = useContext(MyContext);
     const [covidStats, setStats] = useState({ infected: 0, deaths: 0, recovered: 0 })
     useEffect(() => {
-        console.log("useEffect is challing");
-       getData();
-     myContext.dispatchFun({ TotalDeaths:covidStats.deaths,TotalRecovered:covidStats.recovered,TotalCases:covidStats.infected, type: "getStats" })
+        console.log("useEffect ");
+       getData(country.Country);
+    //  myContext.dispatchFun({ TotalDeaths:covidStats.deaths,TotalRecovered:covidStats.recovered,TotalCases:covidStats.infected, type: "getStats" })
     }, []);
 
-    const [value, setValue] = useState('Pakistan')
+    const [value, setValue] = useState(country.Country)
     const options = useMemo(() => countryList().getData(), [])
 
     const changeHandler = value => {
@@ -33,14 +33,14 @@ export default function CovidChart() {
         console.log(value.label+'label');
         setCountry({ Country: value.label, ThreeLetterSymbol: value.label.slice(0, 3) });
         // myContext.dispatchFun({ cname: country, type: "getCountryName" })
-        getData();
-        myContext.dispatchFun({ TotalDeaths:covidStats.deaths,TotalRecovered:covidStats.recovered,TotalCases:covidStats.infected, type: "getStats" })
-      
+        getData(value.label);
+        
     }
-    function getData() {
+    function getData(cname) {
         async function fetchData() {
             try {
-                const resp = await fetch(`https://vaccovid-coronavirus-vaccine-and-treatment-tracker.p.rapidapi.com/api/npm-covid-data/country-report-iso-based/${country.Country}/${country.ThreeLetterSymbol}`, {
+                console.log(cname +"inside fetch function");
+                const resp = await fetch(`https://vaccovid-coronavirus-vaccine-and-treatment-tracker.p.rapidapi.com/api/npm-covid-data/country-report-iso-based/${cname}/${cname.slice(0,3)}`, {
                     "method": "GET",
                     "headers": {
                         "x-rapidapi-host": "vaccovid-coronavirus-vaccine-and-treatment-tracker.p.rapidapi.com",
@@ -56,15 +56,14 @@ export default function CovidChart() {
             }
         }
         fetchData().then(data => {
-            data.forEach((statsObj) => {
-                setStats({
-                    infected: statsObj.TotalCases,
-                    deaths: statsObj.TotalDeaths,
-                    recovered: statsObj.TotalRecovered
-                });
-             
+            
+            setStats({
+                infected: data[0].TotalCases,
+                deaths: data[0].TotalDeaths,
+                recovered: data[0].TotalRecovered
             });
-           
+            myContext.dispatchFun({ TotalDeaths:data[0].TotalDeaths,TotalRecovered:data[0].TotalRecovered,TotalCases:data[0].TotalCases, type: "getStats" })
+            
         }
         )
     }

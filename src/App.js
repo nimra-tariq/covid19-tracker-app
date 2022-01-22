@@ -8,12 +8,16 @@ import { MyContext } from './context/context';
 import { useReducer } from 'react';
 import { myReducer } from './components/reducer/reducer';
 import { Suspense } from 'react';
+import { fetchCountries, fetchData } from './components/covidRatioChart/fetchApi';
+import CountryPicker from './components/countryPicker/countryPicker';
 
 
 
 function App() {
 
   const [state, dispatch] = useReducer(myReducer, {});
+fetchData();
+fetchCountries();
 
   return (
     <div>
@@ -24,8 +28,8 @@ function App() {
           <CovidChart></CovidChart>
           <Footer></Footer>
         </MyContext.Provider>
+        {/* <CountryPicker></CountryPicker> */}
       </Suspense>
-
     </div>
 
   );
