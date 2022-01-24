@@ -1,44 +1,51 @@
-// export function fetchProfileData() {
-//   let userPromise = fetchUser();
-//   let postsPromise = fetchPosts();
-//   return {
-//     user: wrapPromise(userPromise),
-//     posts: wrapPromise(postsPromise)
-//   };
-// }
-
 
 let axios = require("axios").default;
 
-export function fetchData() {
+//fetch worldwide covid stats for cards initial state
+export async function totalStats() {
+  try {
+    const response = await axios.get("https://covid19.mathdro.id/api");
+    return response.data;
+  }
+  catch (e) {
+    console.log(e);
+  }
+}
 
-  let options = {
-    method: 'GET',
-    url: 'https://covid19.mathdro.id/api/countries/pakistan',
-  };
+//fetch dailyStats for lineChart
+export async function dailyData() {
+  try {
+    const response = await axios.get("https://covid19.mathdro.id/api/daily");
+    return response.data;
+  }
+  catch (e) {
+    console.log(e);
+  }
+}
 
-  axios.request(options).then(function (response) {
-    console.log(response.data);
-  }).catch(function (error) {
-    console.error(error);
-  });
+//fetches the data of selected country
+export async function fetchStats(country) {
+
+  try {
+    const response = await axios.get(`https://covid19.mathdro.id/api/countries/${country}`);
+    return response.data;
+  }
+  catch (e) {
+    console.log(e);
+  }
 
 }
 
+//fetches countryName
+export async function fetchCountries() {
 
-export function fetchCountries() {
+  try {
+    const response = await axios.get('https://covid19.mathdro.id/api/countries');
+    return response.data.countries.map((country) => country.name)
+  }
+  catch (e) {
+    console.log(e);
+  }
 
-let obj;
-  let options = {
-    method: 'GET',
-    url: 'https://covid19.mathdro.id/api/countries',
-  };
 
-  axios.request(options).then(function (response) {
-    obj=response.data;
-    console.log(response.data);
-  }).catch(function (error) {
-    console.error(error);
-  });
-  return obj;
 }

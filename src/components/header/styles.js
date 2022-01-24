@@ -1,6 +1,4 @@
-import { colors, makeStyles, createStyles } from "@material-ui/core";
-import { red } from "@material-ui/core/colors";
-import { Height } from "@material-ui/icons";
+import {  makeStyles, createStyles } from "@material-ui/core";
 export const useStyles = makeStyles(theme => createStyles({
 
     logoImg: {
@@ -11,7 +9,7 @@ export const useStyles = makeStyles(theme => createStyles({
     }, appBar: {
         background: "white"
     },
-    box:{
-        marginBottom:"30px"
+    box: {
+        marginBottom: "30px"
     }
 }));

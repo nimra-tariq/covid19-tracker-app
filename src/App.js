@@ -3,36 +3,74 @@ import './App.css';
 import Header from './components/header/header';
 import CardContainer from './components/cards/cardsContainer';
 import Footer from './components/footer/footer';
-import CovidChart from './components/covidRatioChart/covidRatioChart';
 import { MyContext } from './context/context';
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import { myReducer } from './components/reducer/reducer';
-import { Suspense } from 'react';
-import { fetchCountries, fetchData } from './components/covidRatioChart/fetchApi';
+import { fetchStats } from './components/covidRatioChart/fetchApi';
 import CountryPicker from './components/countryPicker/countryPicker';
+import CovidChart from './components/covidRatioChart/chart';
+import { totalStats } from './components/covidRatioChart/fetchApi';
+import { useEffect } from 'react';
 
 
 
 function App() {
 
   const [state, dispatch] = useReducer(myReducer, {});
-fetchData();
-fetchCountries();
+  const [stats, setStats] = useState({});
+  const [countryStats, setCountryStats] = useState({});
+
+
+  function fetchData() {
+    totalStats().then((resp) => {
+      setStats(
+        {
+          confirmed: resp.confirmed.value,
+          deaths: resp.deaths.value,
+          recovered: resp.recovered.value
+        });
+    })
+  }
+
+  useEffect(() => { fetchData() }, [setStats])
+
+  function onCountrySelection(cname) {
+    if (cname === 'global') {
+      fetchData();
+    }
+    else {
+      fetchStats(cname).then((resp) => {
+        setStats(
+          {
+            confirmed: resp.confirmed.value,
+            deaths: resp.deaths.value,
+            recovered: resp.recovered.value
+          });
+        setCountryStats({
+          confirmed: resp.confirmed.value,
+          deaths: resp.deaths.value,
+          recovered: resp.recovered.value
+        });
+      });
+    }
+
+  }
 
   return (
     <div>
-      <Suspense fallback={<p>loading...</p>}>
-        <MyContext.Provider value={{ countryName: state, dispatchFun: dispatch }}>
-          <Header></Header>
-          <CardContainer></CardContainer>
-          <CovidChart></CovidChart>
-          <Footer></Footer>
-        </MyContext.Provider>
-        {/* <CountryPicker></CountryPicker> */}
-      </Suspense>
+      <MyContext.Provider value={{ countryName: state, dispatchFun: dispatch }}>
+        <Header></Header>
+        <CardContainer deaths={stats.deaths} recovered={stats.recovered} confirmed={stats.confirmed} ></CardContainer>
+        <CountryPicker onCountrySelection={onCountrySelection} confirmed={stats.confirmed}></CountryPicker>
+        <CovidChart deaths={countryStats.deaths} recovered={countryStats.recovered} confirmed={countryStats.confirmed}></CovidChart>
+        <Footer confirmed={stats.confirmed}></Footer>
+      </MyContext.Provider>
     </div>
 
-  );
+  )
+
 }
 
 export default App;
+
+
