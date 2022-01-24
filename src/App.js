@@ -5,7 +5,7 @@ import CardContainer from './components/cards/cardsContainer';
 import Footer from './components/footer/footer';
 import { MyContext } from './context/context';
 import { useReducer, useState } from 'react';
-import { myReducer } from './components/reducer/reducer';
+import { myReducer } from './reducer/reducer';
 import { fetchStats } from './components/covidRatioChart/fetchApi';
 import CountryPicker from './components/countryPicker/countryPicker';
 import CovidChart from './components/covidRatioChart/chart';
