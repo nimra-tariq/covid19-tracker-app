@@ -32,7 +32,11 @@ export default function CardContainer(props) {
                 })}
             </Grid>
         </div>
-    ) :null
+    ) : <div className="d-flex justify-content-center align-items-center text-center vh-100 min-vh-100" >
+        <div className="spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
+        </div>
+    </div>
     }
     </>
 }
