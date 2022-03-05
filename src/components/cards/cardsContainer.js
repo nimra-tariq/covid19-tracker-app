@@ -1,4 +1,4 @@
-import ProductCard from "./productCard";
+import ProductCard from "./card";
 import { Grid } from '@material-ui/core';
 
 export default function CardContainer(props) {
